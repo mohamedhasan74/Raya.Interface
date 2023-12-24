@@ -1,0 +1,41 @@
+<div class="row my-4">
+    <div class="col-lg-4 col-12 mb-2">
+        <div class="bg-info p-3 rounded-2">
+            <h6>Products Count</h6>
+            <p>{{products.length}}</p>
+        </div>
+    </div>
+    <div class="col-lg-4 col-12 mb-2">
+        <div class="bg-success p-3 text-white rounded-2">
+            <h6>Products In Stock Count</h6>
+            <p>{{productsInStock}}</p>
+        </div>
+    </div>
+    <div class="col-lg-4 col-12 mb-2">
+        <div class="bg-danger p-3 text-white rounded-2">
+            <h6>Products Out Stock Count</h6>
+            <p>{{productsOutStock}}</p>
+        </div>
+    </div>
+</div>
+<table class="table table-striped table-hover my-3">
+    <thead>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Short Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Quantity</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.description.slice(0,50)}}</td>
+            <td>{{product.price | currency}}</td>
+            <td [ngStyle]="{'color': product.quantity > 0 ? 'green': 'red'}">{{product.quantity > 0 ? "In Stock" : "Out
+                Stock"}}</td>
+            <td>{{product.quantity}}</td>
+        </tr>
+    </tbody>
+</table>

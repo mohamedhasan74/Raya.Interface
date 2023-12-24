@@ -1,0 +1,34 @@
+<h1>Add Product</h1>
+<form [formGroup]="addProductForm" (ngSubmit)="addProduct(addProductForm)">
+    <div *ngIf="apiError" class="alert alert-danger">{{apiError}}</div>
+    <label for="name">Product Name</label>
+    <input formControlName="name" type="text" name="name" id="name" placeholder="Iphone X" class="form-control mb-3">
+    <div *ngIf="name?.errors && name?.touched" class="alert alert-danger">
+        <p *ngIf="name?.errors?.['required']" class="m-0 p-0">*Product Name Is Required</p>
+        <p *ngIf="name?.errors?.['pattern']" class="m-0 p-0">*Product Name Must Start With Alpha</p>
+    </div>
+    <label for="description">Product Description</label>
+    <input formControlName="description" type="text" name="description" id="description"
+        placeholder="This Phone From Apple Company..." class="form-control mb-2">
+    <div *ngIf="description?.errors && description?.touched" class="alert alert-danger">
+        <p *ngIf="description?.errors?.['required']" class="m-0 p-0">*Product Description Is Required</p>
+        <p *ngIf="description?.errors?.['pattern']" class="m-0 p-0">*Product Description Must Start With Alpha</p>
+    </div>
+    <label for="price">Product Price</label>
+    <input formControlName="price" type="number" name="price" id="price" placeholder="12$" class="form-control mb-3">
+    <div *ngIf="price?.errors && price?.touched" class="alert alert-danger">
+        <p *ngIf="price?.errors?.['required']" class="m-0 p-0">*Product Price Is Required</p>
+        <p *ngIf="price?.errors?.['min']" class="m-0 p-0">*Minimum Price For Product Is 1</p>
+    </div>
+    <label for="quantity">Product Quantity</label>
+    <input formControlName="quantity" type="number" name="quantity" id="quantity" placeholder="560"
+        class="form-control mb-3">
+    <div *ngIf="quantity?.errors && quantity?.touched" class="alert alert-danger">
+        <p *ngIf="quantity?.errors?.['required']" class="m-0 p-0">*Product Quantity Is Required</p>
+        <p *ngIf="quantity?.errors?.['min']" class="m-0 p-0">*Minimum Quantity For Product Is 0</p>
+    </div>
+    <button [disabled]="addProductForm.invalid" class="btn btn-success">
+        <span *ngIf="!isLoading">Add</span>
+        <i *ngIf="isLoading" class="fas fa-spinner fa-pulse"></i>
+    </button>
+</form>

@@ -1,0 +1,89 @@
+<form [formGroup]="searchForm" class="row py-4 my-2" (ngSubmit)="search(searchForm)">
+    <div class="col-lg col-md-4 col-12">
+        <div class="p-2">
+            <input formControlName="name" type="text" name="name" id="name" placeholder="Search By Name"
+            class="form-control mb-3">
+        <div *ngIf="name?.errors && name?.touched" class="alert alert-danger">
+            <p *ngIf="name?.errors?.['pattern']" class="m-0 p-0 fs-12">*Must Start With Alpha</p>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg col-md-4 col-12">
+        <div class="p-2">
+            <input formControlName="description" type="text" name="description" id="description" placeholder="Search By Description"
+            class="form-control mb-2">
+        <div *ngIf="description?.errors && description?.touched" class="alert alert-danger">
+            <p *ngIf="description?.errors?.['pattern']" class="m-0 p-0 fs-12">*Must Start With Alpha</p>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg col-md-4 col-12">
+        <div class="p-2">
+            <input formControlName="price" type="number" name="price" id="price" placeholder="Search By Price"
+            class="form-control mb-3">
+        <div *ngIf="price?.errors && price?.touched" class="alert alert-danger">
+            <p *ngIf="price?.errors?.['min']" class="m-0 p-0 fs-12">*Minimum Is 1</p>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg col-md-4 col-12">
+        <div class="p-2">
+            <input formControlName="quantity" type="number" name="quantity" id="quantity" placeholder="Search By Quantity"
+            class="form-control mb-3">
+        <div *ngIf="quantity?.errors && quantity?.touched" class="alert alert-danger">
+            <p *ngIf="quantity?.errors?.['min']" class="m-0 p-0">*Minimum Is 0</p>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg col-md-4 col-12">
+        <div class="p-2">
+            <button [disabled]="searchForm.invalid" class="btn btn-success">Search</button>
+        </div>
+    </div>
+</form>
+<div class="row py-4">
+    <div class="col-md-6 col-12 my-2" *ngFor="let product of products">
+        <div class="p-4 shadow rounded-2">
+            <h6>{{product?.name}}</h6>
+            <p class="fs-12">{{product?.description}}</p>
+            <p class="py-0 my-0"><span class="h6">Price</span> : {{product?.price | currency}}</p>
+            <p class="py-1 my-1" *ngIf="product.quantity > 10"><span class="h6">Quantity</span> : {{product?.quantity}}
+            </p>
+            <p class="py-1 my-1 text-danger h6" *ngIf="product.quantity <= 10 && product.quantity > 0">There is Only {{product?.quantity}} Items
+            </p>
+            <p class="py-1 my-1 text-danger h6" *ngIf="product.quantity == 0">There is No Item</p>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <a class="btn btn-sm btn-info w-100 my-2" [routerLink]="['/product',product.id]">Details</a>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <a class="btn btn-sm btn-success w-100 my-2" [routerLink]="['/updateProduct',product.id]">Update</a>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <a class="btn btn-sm btn-danger w-100 my-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        (click)="getId(product.id)">Delete</a>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are You Sure To Delete Product ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            (click)="DeleteProduct()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="alert alert-danger" *ngIf="products.length == 0">Not Found Products</div>
